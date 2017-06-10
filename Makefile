@@ -11,6 +11,9 @@ build:
 debug:
 	$(CC) $(DEBUG_CFLAGS) $(SRC_DIR)/*.cc -o huffman
 
+leakcheck: debug
+	valgrind --log-file=valgrind.log --leak-check=full ./huffman
+
 .PHONY: clean
 clean:
 	rm -f a.out
