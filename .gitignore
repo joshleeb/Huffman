@@ -1,6 +1,9 @@
 # Compiled Binary files
 huffman
 
+# Logs
+*.log
+
 # Prerequisites
 *.d
 
