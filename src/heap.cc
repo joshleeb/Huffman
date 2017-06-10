@@ -5,17 +5,30 @@
 
 using namespace std;
 
-Node::Node(int score, char value) {
-    this->score = score;
+Node::Node(char value, unsigned int score) {
     this->value = value;
+    this->score = score;
+
+    this->left = nullptr;
+    this->right = nullptr;
 }
 
-bool compare_node_lt::operator()(const Node *left, const Node *right) {
-    return left->score < right->score;
+Node::~Node() {
+    if (this->left != nullptr) {
+        delete this->left;
+    }
+
+    if (this->right != nullptr) {
+        delete this->right;
+    }
+}
+
+bool compare_node_min::operator()(const Node *left, const Node *right) {
+    return right->score < left->score;
 }
 
 Heap::Heap() {
-    priority_queue<Node*, vector<Node*>, compare_node_lt> nodes;
+    priority_queue<Node*, vector<Node*>, compare_node_min> nodes;
 
     this->nodes = nodes;
 }
@@ -26,16 +39,12 @@ Heap::~Heap() {
     }
 }
 
-Node *Heap::root() {
-    return this->nodes.top();
-}
-
 void Heap::push(Node *node) {
     this->nodes.push(node);
 }
 
 Node *Heap::pop() {
-    Node *root = this->root();
+    Node *root = this->nodes.top();
     this->nodes.pop();
 
     return root;
@@ -43,4 +52,8 @@ Node *Heap::pop() {
 
 bool Heap::empty() {
     return this->nodes.empty();
+}
+
+int Heap::size() {
+    return this->nodes.size();
 }

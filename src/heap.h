@@ -5,27 +5,29 @@
 
 class Node {
     public:
-    Node(int score, char value);
+    Node(char value, unsigned int score);
+    ~Node();
 
-    int score;
+    unsigned int score;
     char value;
+
+    Node *left, *right;
 };
 
-struct compare_node_lt {
+struct compare_node_min {
     bool operator()(const Node *left, const Node *right);
 };
 
 class Heap {
-    std::priority_queue<Node*, std::vector<Node*>, compare_node_lt> nodes;
+    std::priority_queue<Node*, std::vector<Node*>, compare_node_min> nodes;
 
     public:
     Heap();
     ~Heap();
 
-    Node *root();
-
     void push(Node *node);
     Node *pop();
 
     bool empty();
+    int size();
 };
