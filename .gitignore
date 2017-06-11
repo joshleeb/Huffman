@@ -1,6 +1,9 @@
 # Compiled Binary files
 huffman
 
+# Build directory
+build/
+
 # Logs
 *.log
 
