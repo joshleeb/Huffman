@@ -34,6 +34,14 @@ Encode the input.
 
 Decode the input.
 
+#### No Header
+
++ TODO: Implement.
+
+`-h --noheader`
+
+Don't include a header, specifically for encoding. This means that the encoded output will not be able to be decoded by this program.
+
 #### Verbose
 
 + TODO: Implement.
