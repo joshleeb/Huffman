@@ -8,11 +8,11 @@
 using namespace std;
 
 HuffmanEncoder::HuffmanEncoder() {
-    this->encoding = unordered_map<char, vector<bool>>();
+    this->encoding = unordered_map<char, vector<int>>();
 }
 
-char *HuffmanEncoder::encode(char *buf, unsigned int size) {
-    auto freq = this->count_chars(buf, size);
+vector<int> HuffmanEncoder::encode(vector<char> buf) {
+    auto freq = this->count_chars(buf);
 
     // Push items onto the queue to be sorted by frequency.
     MinQueue *queue = new MinQueue();
@@ -36,45 +36,51 @@ char *HuffmanEncoder::encode(char *buf, unsigned int size) {
     MinQueueNode *root = queue->pop();
     delete queue;
 
-    this->evaluate(root, vector<bool>());
+    this->evaluate(root, vector<int>());
     delete root;
 
-    return buf;
+    vector<int> encoded = vector<int>();
+    for (auto &c : buf) {
+        vector<int> encoding = this->encoding[c];
+        encoded.insert(encoded.end(), encoding.begin(), encoding.end());
+    }
+
+    return encoded;
 }
 
 void HuffmanEncoder::display_encoding() {
     for (auto const &i : this->encoding) {
         cout << i.first << " -> ";
         for (auto const &bit : i.second) {
-            cout << (int) bit;
+            cout << bit;
         }
         cout << "\n";
     }
 }
 
-unordered_map<char, int> HuffmanEncoder::count_chars(char *buf, unsigned int size) {
+unordered_map<char, int> HuffmanEncoder::count_chars(vector<char> buf) {
     unordered_map<char, int> freq = {};
 
-    for (unsigned int i = 0; i < size; i++) {
-        if (freq.find(buf[i]) == freq.end()) {
-            freq[buf[i]] = 0;
+    for (auto &c : buf) {
+        if (freq.find(c) == freq.end()) {
+            freq[c] = 0;
         }
-        freq[buf[i]]++;
+        freq[c]++;
     }
 
     return freq;
 }
 
-void HuffmanEncoder::evaluate(MinQueueNode *root, vector<bool> encoding) {
+void HuffmanEncoder::evaluate(MinQueueNode *root, vector<int> encoding) {
     if (!root) return;
     if (root->value != EMPTY_NODE) {
         this->encoding[root->value] = encoding;
     }
 
-    vector<bool> left_encoding = encoding;
+    vector<int> left_encoding = encoding;
     left_encoding.push_back(0);
 
-    vector<bool> right_encoding = encoding;
+    vector<int> right_encoding = encoding;
     right_encoding.push_back(1);
 
     this->evaluate(root->left, left_encoding);

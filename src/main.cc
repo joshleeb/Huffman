@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "huffman.h"
 
@@ -6,10 +7,15 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     auto encoder = HuffmanEncoder();
-    char buf[11] = "cccbbdddda";
 
-    encoder.encode(buf, 10);
-    encoder.display_encoding();
+    string input = "cccbbdddda";
+    vector<char> buf = vector<char>(input.begin(), input.end());
+
+    vector<int> encoded = encoder.encode(buf);
+    for (auto const &bit : encoded) {
+        cout << bit;
+    }
+    cout << "\n";
 
     return EXIT_SUCCESS;
 }

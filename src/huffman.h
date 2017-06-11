@@ -7,14 +7,14 @@
 #include "minqueue.h"
 
 class HuffmanEncoder {
-    std::unordered_map<char, std::vector<bool>> encoding;
+    std::unordered_map<char, std::vector<int>> encoding;
+    std::unordered_map<char, int> count_chars(std::vector<char> buf);
 
-    std::unordered_map<char, int> count_chars(char *buf, unsigned int size);
-    void evaluate(MinQueueNode *root, std::vector<bool> encoding);
+    void evaluate(MinQueueNode *root, std::vector<int> encoding);
 
     public:
     HuffmanEncoder();
 
-    char *encode(char *buf, unsigned int size);
+    std::vector<int> encode(std::vector<char> buf);
     void display_encoding();
 };
