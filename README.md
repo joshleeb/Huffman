@@ -18,7 +18,7 @@ Input is read from `stdin` and outputted to `stdout`.
 
 #### Encoding
 
-TODO.
++ TODO: Implement.
 
 `-e --encode`
 
@@ -26,7 +26,7 @@ Encode the input.
 
 #### Decoding
 
-TODO.
++ TODO: Implement.
 
 `-d --decode`
 
@@ -34,7 +34,7 @@ Decode the input.
 
 #### Byte
 
-TODO.
++ TODO: Implement.
 
 `-b --byte`
 
@@ -42,8 +42,8 @@ Handle the encoding in bytes rather than bits. This is mainly for display purpos
 
 #### Verbose
 
-TODO.
-TODO: Make sure escape characters are correctly displayed.
++ TODO: Implement.
++ TODO: Make sure escape characters are correctly displayed.
 
 `-v --verbose`
 
