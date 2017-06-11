@@ -18,12 +18,33 @@ Input is read from `stdin` and outputted to `stdout`.
 
 #### Encoding
 
+TODO.
+
 `-e --encode`
 
 Encode the input.
 
 #### Decoding
 
+TODO.
+
 `-d --decode`
 
 Decode the input.
+
+#### Byte
+
+TODO.
+
+`-b --byte`
+
+Handle the encoding in bytes rather than bits. This is mainly for display purposes when encoding.
+
+#### Verbose
+
+TODO.
+TODO: Make sure escape characters are correctly displayed.
+
+`-v --verbose`
+
+Display the encoding mapping that will be used.
