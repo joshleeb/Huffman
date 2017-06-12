@@ -14,4 +14,8 @@ class Options {
 };
 
 Options *process_cli(int argc, char *argv[]);
+
 std::vector<char> read_stdin();
+
+template<typename T>
+void display_buf(const std::vector<T> &buf);

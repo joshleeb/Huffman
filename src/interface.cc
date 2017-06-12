@@ -65,6 +65,16 @@ vector<char> read_stdin() {
     return buf;
 }
 
+template void display_buf<char>(const vector<char>&);
+template void display_buf<int>(const vector<int>&);
+template<typename T>
+void display_buf(const vector<T> &buf) {
+    for (auto const &i : buf) {
+        std::cout << i;
+    }
+    std::cout << "\n";
+}
+
 Options::Options(bool encode, bool decode, bool stats, bool verbose) {
     this->encode = encode;
     this->decode = decode;

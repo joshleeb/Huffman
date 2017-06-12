@@ -7,15 +7,11 @@
 using namespace std;
 
 int encode(Options *opts) {
-    (void) opts;
-    auto encoder = HuffmanEncoder();
+    auto encoder = HuffmanEncoder(opts);
     vector<char> buf = read_stdin();
 
     auto encoded = encoder.encode(buf);
-    for (auto const &bit : encoded) {
-        cout << bit;
-    }
-    cout << "\n";
+    display_buf(encoded);
 
     return EXIT_SUCCESS;
 }

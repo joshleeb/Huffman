@@ -3,11 +3,13 @@
 #include <vector>
 
 #include "huffman.h"
+#include "interface.h"
 #include "minqueue.h"
 
 using namespace std;
 
-HuffmanEncoder::HuffmanEncoder() {
+HuffmanEncoder::HuffmanEncoder(Options *opts) {
+    this->opts = opts;
     this->encoding = unordered_map<char, vector<int>>();
 }
 
