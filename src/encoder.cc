@@ -8,13 +8,20 @@
 
 using namespace std;
 
-HuffmanEncoder::HuffmanEncoder(Options *opts) {
-    this->opts = opts;
+HuffmanEncoder::HuffmanEncoder() {
     this->encoding = unordered_map<char, vector<int>>();
+    this->stats = new Statistics();
+}
+
+HuffmanEncoder::~HuffmanEncoder() {
+    delete this->stats;
 }
 
 vector<int> HuffmanEncoder::encode(vector<char> buf) {
     auto freq = this->count_chars(buf);
+
+    // Set length of original data for statistics.
+    this->stats->original = buf.size();
 
     // Push items onto the queue to be sorted by frequency.
     MinQueue *queue = new MinQueue();
@@ -47,11 +54,15 @@ vector<int> HuffmanEncoder::encode(vector<char> buf) {
         encoded.insert(encoded.end(), encoding.begin(), encoding.end());
     }
 
+    // Set length of encoded data for statistics.
+    this->stats->modified = encoded.size();
+
     return encoded;
 }
 
+// TODO: Handle escape characters.
 void HuffmanEncoder::display_encoding() {
-    cout << "\n\n------- Encoding -------\n";
+    cout << "\n------- Encoding -------\n";
     for (auto const &i : this->encoding) {
         cout << i.first << " -> ";
         for (auto const &bit : i.second) {
@@ -59,7 +70,19 @@ void HuffmanEncoder::display_encoding() {
         }
         cout << "\n";
     }
-    cout << "------------------------\n";
+    cout << "------------------------\n\n";
+}
+
+void HuffmanEncoder::display_stats() {
+    size_t original_size = this->stats->original * 8;
+    double delta = original_size - this->stats->modified;
+    double percentage = 100 * delta / original_size;
+
+    cout << "\n------ Statistics ------\n";
+    cout << "Original size = " << original_size << " bits\n";
+    cout << "Modified size = " << this->stats->modified << " bits\n";
+    cout << "Space saved = " << percentage <<  "%\n";
+    cout << "------------------------\n\n";
 }
 
 unordered_map<char, int> HuffmanEncoder::count_chars(vector<char> buf) {

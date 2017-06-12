@@ -7,23 +7,23 @@
 using namespace std;
 
 int encode(Options *opts) {
-    auto encoder = HuffmanEncoder(opts);
     vector<char> buf = read_stdin();
-
+    auto encoder = HuffmanEncoder();
     auto encoded = encoder.encode(buf);
 
-    if (opts->verbose) {
-        encoder.display_encoding();
-    }
-
+    if (opts->verbose) encoder.display_encoding();
+    if (opts->stats) encoder.display_stats();
     display_buf(encoded);
 
+    delete opts;
     return EXIT_SUCCESS;
 }
 
 int decode(Options *opts) {
     (void) opts;
     cout << "Decoding isn't implemented... yet\n\n";
+
+    delete opts;
     return EXIT_SUCCESS;
 }
 
@@ -39,5 +39,7 @@ int main(int argc, char *argv[]) {
     if (opts->decode) return decode(opts);
 
     cerr << "Error: must specify either to encode or decode\n\n";
+
+    delete opts;
     return EXIT_FAILURE;
 }
