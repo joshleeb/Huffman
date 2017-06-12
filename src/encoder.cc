@@ -20,8 +20,8 @@ HuffmanEncoder::~HuffmanEncoder() {
 vector<int> HuffmanEncoder::encode(vector<char> buf) {
     auto freq = this->count_chars(buf);
 
-    // Set length of original data for statistics.
-    this->stats->original = buf.size();
+    // Set length of original data for statistics (in bits).
+    this->stats->original = buf.size() * 8;
 
     // Push items onto the queue to be sorted by frequency.
     MinQueue *queue = new MinQueue();
@@ -54,7 +54,7 @@ vector<int> HuffmanEncoder::encode(vector<char> buf) {
         encoded.insert(encoded.end(), encoding.begin(), encoding.end());
     }
 
-    // Set length of encoded data for statistics.
+    // Set length of encoded data for statistics. Each 0|1 character represents a bit, not a byte.
     this->stats->modified = encoded.size();
 
     return encoded;
@@ -74,12 +74,11 @@ void HuffmanEncoder::display_encoding() {
 }
 
 void HuffmanEncoder::display_stats() {
-    size_t original_size = this->stats->original * 8;
-    double delta = original_size - this->stats->modified;
-    double percentage = 100 * delta / original_size;
+    double delta = this->stats->original - this->stats->modified;
+    double percentage = 100 * delta / this->stats->original;
 
     cout << "\n------ Statistics ------\n";
-    cout << "Original size = " << original_size << " bits\n";
+    cout << "Original size = " << this->stats->original << " bits\n";
     cout << "Modified size = " << this->stats->modified << " bits\n";
     cout << "Space saved = " << percentage <<  "%\n";
     cout << "------------------------\n\n";
