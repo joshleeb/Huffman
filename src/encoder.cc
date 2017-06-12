@@ -51,6 +51,7 @@ vector<int> HuffmanEncoder::encode(vector<char> buf) {
 }
 
 void HuffmanEncoder::display_encoding() {
+    cout << "\n\n------- Encoding -------\n";
     for (auto const &i : this->encoding) {
         cout << i.first << " -> ";
         for (auto const &bit : i.second) {
@@ -58,6 +59,7 @@ void HuffmanEncoder::display_encoding() {
         }
         cout << "\n";
     }
+    cout << "------------------------\n";
 }
 
 unordered_map<char, int> HuffmanEncoder::count_chars(vector<char> buf) {

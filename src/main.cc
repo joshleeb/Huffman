@@ -11,6 +11,11 @@ int encode(Options *opts) {
     vector<char> buf = read_stdin();
 
     auto encoded = encoder.encode(buf);
+
+    if (opts->verbose) {
+        encoder.display_encoding();
+    }
+
     display_buf(encoded);
 
     return EXIT_SUCCESS;
