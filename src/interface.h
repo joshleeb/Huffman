@@ -14,3 +14,4 @@ class Options {
 };
 
 Options *process_cli(int argc, char *argv[]);
+std::vector<char> read_stdin();

@@ -50,6 +50,21 @@ Options *process_cli(int argc, char *argv[]) {
     return opts;
 }
 
+vector<char> read_stdin() {
+    auto buf = vector<char>();
+    string line;
+
+    getline(cin, line);
+    copy(line.begin(), line.end(), back_inserter(buf));
+
+    while (getline(cin, line)) {
+        buf.push_back('\n');
+        copy(line.begin(), line.end(), back_inserter(buf));
+    }
+
+    return buf;
+}
+
 Options::Options(bool encode, bool decode, bool stats, bool verbose) {
     this->encode = encode;
     this->decode = decode;

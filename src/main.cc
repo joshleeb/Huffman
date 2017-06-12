@@ -6,32 +6,37 @@
 
 using namespace std;
 
+int encode(Options *opts) {
+    (void) opts;
+    auto encoder = HuffmanEncoder();
+    vector<char> buf = read_stdin();
+
+    auto encoded = encoder.encode(buf);
+    for (auto const &bit : encoded) {
+        cout << bit;
+    }
+    cout << "\n";
+
+    return EXIT_SUCCESS;
+}
+
+int decode(Options *opts) {
+    (void) opts;
+    cout << "Decoding isn't implemented... yet\n\n";
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char *argv[]) {
     auto *opts = process_cli(argc, argv);
 
     if (opts->encode && opts->decode) {
-        cout << "Error: cannot specify both to encode and decode\n\n";
-        exit(EXIT_FAILURE);
-    } else if (!opts->encode && !opts->decode) {
-        cout << "Error: must specify either to encode or decode\n\n";
+        cerr << "Error: cannot specify both to encode and decode\n\n";
         exit(EXIT_FAILURE);
     }
 
-    if (opts->encode) {
-        cout << "Encoding isn't implemented... yet\n\n";
-    } else if (opts->decode) {
-        cout << "Decoding isn't implemented... yet\n\n";
-    }
+    if (opts->encode) return encode(opts);
+    if (opts->decode) return decode(opts);
 
-    // auto encoder = HuffmanEncoder();
-    // string input = "cccbbdddda";
-    // vector<char> buf = vector<char>(input.begin(), input.end());
-
-    // vector<int> encoded = encoder.encode(buf);
-    // for (auto const &bit : encoded) {
-    //     cout << bit;
-    // }
-    // cout << "\n";
-
-    return EXIT_SUCCESS;
+    cerr << "Error: must specify either to encode or decode\n\n";
+    return EXIT_FAILURE;
 }
