@@ -14,10 +14,11 @@ po::variables_map process_cli(int argc, char *argv[]) {
     po::options_description desc(desc_text);
     desc.add_options()
         ("help,h", "Show this help")
-        ("verbose,v", po::bool_switch(), "Turn on verbose output")
         ("encode,e", po::bool_switch(), "Encode input")
         ("decode,d", po::bool_switch(), "Decode input")
+        ("output,o", po::value<string>()->multitoken()->value_name("FILE"), "File to output to")
         ("stats,s", po::bool_switch(), "Show hypothetical statistics")
+        ("verbose,v", po::bool_switch(), "Turn on verbose output")
     ;
 
     po::variables_map vm;
@@ -27,6 +28,11 @@ po::variables_map process_cli(int argc, char *argv[]) {
     if (vm.count("help")) {
         cout << desc << "\n";
         exit(EXIT_SUCCESS);
+    }
+
+    if (vm.count("encode") && vm.count("decode")) {
+        cout << "Cannot specify both to encode and decode\n\n";
+        exit(EXIT_FAILURE);
     }
 
     return vm;

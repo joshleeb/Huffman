@@ -16,15 +16,22 @@ Huffman encoder/decoder concept project.
 
 OPTIONS:
   -h [ --help ]         Show this help
-  -v [ --verbose ]      Turn on verbose output
   -e [ --encode ]       Encode input
   -d [ --decode ]       Decode input
+  -o [ --output ] FILE  File to output to
   -s [ --stats ]        Show hypothetical statistics
+  -v [ --verbose ]      Turn on verbose output
 ```
 
-Input is read from `stdin` and outputted to `stdout`.
+Input is read from `stdin` and outputted to a specified file or `stdout`.
 
 ### Options
+
+#### Help
+
+`-h --help`
+
+Show help message and usage information.
 
 #### Encoding
 
@@ -42,14 +49,13 @@ Encode the input.
 
 Decode the input.
 
-#### Verbose
+#### Output
 
 + TODO: Implement.
-+ TODO: Make sure escape characters are correctly displayed.
 
-`-v --verbose`
+`-o --output`
 
-Display the encoding mapping that will be used.
+File to output the encoded/decoded data into.
 
 #### Statistics
 
@@ -58,3 +64,12 @@ Display the encoding mapping that will be used.
 `-s --stats`
 
 Display theoretical statistics, specifically how much space was compressed/expanded. As mentioned above, the data is in bytes rather than bits. The calculations for these statistics assume that this is a proper Huffman encoder/decoder that works in bits.
+
+#### Verbose
+
++ TODO: Implement.
++ TODO: Make sure escape characters are correctly displayed.
+
+`-v --verbose`
+
+Display the encoding mapping that will be used.
