@@ -1,23 +1,23 @@
 #include <iostream>
 #include <vector>
 
-#include <boost/program_options.hpp>
-
 #include "huffman.h"
+#include "interface.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    auto encoder = HuffmanEncoder();
+    auto opts = process_cli(argc, argv);
 
-    string input = "cccbbdddda";
-    vector<char> buf = vector<char>(input.begin(), input.end());
+    // auto encoder = HuffmanEncoder();
+    // string input = "cccbbdddda";
+    // vector<char> buf = vector<char>(input.begin(), input.end());
 
-    vector<int> encoded = encoder.encode(buf);
-    for (auto const &bit : encoded) {
-        cout << bit;
-    }
-    cout << "\n";
+    // vector<int> encoded = encoder.encode(buf);
+    // for (auto const &bit : encoded) {
+    //     cout << bit;
+    // }
+    // cout << "\n";
 
     return EXIT_SUCCESS;
 }
