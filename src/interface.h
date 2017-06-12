@@ -4,4 +4,13 @@
 
 namespace po = boost::program_options;
 
-po::variables_map process_cli(int argc, char *argv[]);
+class Options {
+    public:
+    bool encode, decode, stats, verbose, file_output;
+    std::string output;
+
+    Options(bool encode, bool decode, bool stats, bool verbose);
+    void set_output(std::string path);
+};
+
+Options *process_cli(int argc, char *argv[]);

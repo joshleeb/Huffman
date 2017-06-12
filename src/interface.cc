@@ -10,30 +10,56 @@ const char *desc_text =
     "Huffman encoder/decoder concept project.\n\n"
     "OPTIONS";
 
-po::variables_map process_cli(int argc, char *argv[]) {
+Options *process_cli(int argc, char *argv[]) {
+    po::variables_map vm;
     po::options_description desc(desc_text);
+
     desc.add_options()
-        ("help,h", "Show this help")
-        ("encode,e", po::bool_switch(), "Encode input")
-        ("decode,d", po::bool_switch(), "Decode input")
+        ("help,h", po::bool_switch()->default_value(false), "Show this help")
+        ("encode,e", po::bool_switch()->default_value(false), "Encode input")
+        ("decode,d", po::bool_switch()->default_value(false), "Decode input")
         ("output,o", po::value<string>()->multitoken()->value_name("FILE"), "File to output to")
-        ("stats,s", po::bool_switch(), "Show hypothetical statistics")
-        ("verbose,v", po::bool_switch(), "Turn on verbose output")
+        ("stats,s", po::bool_switch()->default_value(false), "Show hypothetical statistics")
+        ("verbose,v", po::bool_switch()->default_value(false), "Turn on verbose output")
     ;
 
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
+    try {
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::notify(vm);
+    } catch (std::exception &e) {
+        std::cerr << "Error: " << e.what() << "\n\n";
+        exit(EXIT_FAILURE);
+    }
 
-    if (vm.count("help")) {
+    if (vm["help"].as<bool>()) {
         cout << desc << "\n";
         exit(EXIT_SUCCESS);
     }
 
-    if (vm.count("encode") && vm.count("decode")) {
-        cout << "Cannot specify both to encode and decode\n\n";
-        exit(EXIT_FAILURE);
+    Options *opts = new Options(
+        vm["encode"].as<bool>(),
+        vm["decode"].as<bool>(),
+        vm["stats"].as<bool>(),
+        vm["verbose"].as<bool>()
+    );
+
+    if (vm.count("output")) {
+        opts->set_output(vm["output"].as<string>());
     }
 
-    return vm;
+    return opts;
+}
+
+Options::Options(bool encode, bool decode, bool stats, bool verbose) {
+    this->encode = encode;
+    this->decode = decode;
+    this->stats = stats;
+    this->verbose = verbose;
+
+    this->file_output = false;
+}
+
+void Options::set_output(string path) {
+    this->file_output = true;
+    this->output = path;
 }
