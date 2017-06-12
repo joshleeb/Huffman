@@ -11,7 +11,15 @@ Wanted to work on a small side project to get better at programming in C++.
 ## Usage
 
 ```bash
-huffman [options]
+huffman [OPTIONS...]
+Huffman encoder/decoder concept project.
+
+OPTIONS:
+  -h [ --help ]         Show this help
+  -v [ --verbose ]      Turn on verbose output
+  -e [ --encode ]       Encode input
+  -d [ --decode ]       Decode input
+  -s [ --stats ]        Show hypothetical statistics
 ```
 
 Input is read from `stdin` and outputted to `stdout`.
@@ -33,14 +41,6 @@ Encode the input.
 `-d --decode`
 
 Decode the input.
-
-#### No Header
-
-+ TODO: Implement.
-
-`-h --noheader`
-
-Don't include a header, specifically for encoding. This means that the encoded output will not be able to be decoded by this program.
 
 #### Verbose
 

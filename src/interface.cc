@@ -13,8 +13,11 @@ const char *desc_text =
 po::variables_map process_cli(int argc, char *argv[]) {
     po::options_description desc(desc_text);
     desc.add_options()
-        ("help", "Show this help")
-        ("verbose", po::bool_switch(), "Turn on verbose output")
+        ("help,h", "Show this help")
+        ("verbose,v", po::bool_switch(), "Turn on verbose output")
+        ("encode,e", po::bool_switch(), "Encode input")
+        ("decode,d", po::bool_switch(), "Decode input")
+        ("stats,s", po::bool_switch(), "Show hypothetical statistics")
     ;
 
     po::variables_map vm;
