@@ -46,9 +46,10 @@ vector<int> HuffmanEncoder::encode(vector<char> buf) {
     delete queue;
 
     this->evaluate(root, vector<int>());
+    auto header = this->construct_header(root);
+    vector<int> encoded = this->construct_header(root);
     delete root;
 
-    vector<int> encoded = vector<int>();
     for (auto &c : buf) {
         vector<int> encoding = this->encoding[c];
         encoded.insert(encoded.end(), encoding.begin(), encoding.end());
@@ -111,4 +112,33 @@ void HuffmanEncoder::evaluate(MinQueueNode *root, vector<int> encoding) {
 
     this->evaluate(root->left, left_encoding);
     this->evaluate(root->right, right_encoding);
+}
+
+// Construct the header for the current encoding. The header is a simple representation of the
+// structure of the binary tree. A `0` denotes moving along the tree, and a `1` denotes that the next
+// sequence of 7 bits is a character.
+vector<int> HuffmanEncoder::construct_header(MinQueueNode *root) {
+    auto header = vector<int>();
+    vector<int> sub_header;
+
+    if (!root->left && !root->right) {
+        header.push_back(1);
+        for (int bit_index = 6; bit_index >= 0; bit_index--) {
+            header.push_back(root->value >> bit_index & 1);
+        }
+    } else {
+        header.push_back(0);
+    }
+
+    if (root->left) {
+        sub_header = this->construct_header(root->left);
+        header.insert(header.end(), sub_header.begin(), sub_header.end());
+    }
+
+    if (root->right) {
+        sub_header = this->construct_header(root->right);
+        header.insert(header.end(), sub_header.begin(), sub_header.end());
+    }
+
+    return header;
 }

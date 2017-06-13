@@ -21,6 +21,7 @@ class HuffmanEncoder {
     std::unordered_map<char, int> count_chars(std::vector<char> buf);
 
     void evaluate(MinQueueNode *root, std::vector<int> encoding);
+    std::vector<int> construct_header(MinQueueNode *root);
 
     public:
     HuffmanEncoder();
