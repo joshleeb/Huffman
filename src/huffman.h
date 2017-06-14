@@ -13,6 +13,7 @@ class Statistics {
     size_t modified;
 };
 
+// TODO Inherit from Huffman class.
 class HuffmanEncoder {
     // Statistics of the current encoding.
     Statistics *stats;

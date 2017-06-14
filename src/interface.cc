@@ -61,7 +61,6 @@ vector<char> read_stdin() {
         buf.push_back('\n');
         copy(line.begin(), line.end(), back_inserter(buf));
     }
-    cout << "\n";
 
     return buf;
 }

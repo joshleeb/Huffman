@@ -19,3 +19,5 @@ std::vector<char> read_stdin();
 
 template<typename T>
 void display_buf(const std::vector<T> &buf);
+
+inline bool file_exists(const std::string &path);
