@@ -25,8 +25,8 @@ vector<int> HuffmanEncoder::encode(vector<char> buf) {
 
     // Push items onto the queue to be sorted by frequency.
     MinQueue *queue = new MinQueue();
-    for (auto const &i : freq) {
-        queue->push(new MinQueueNode(i.first, i.second));
+    for (auto const &[value, score] : freq) {
+        queue->push(new MinQueueNode(value, score));
     }
 
     // Combine nodes to form a heap where the root node will be the only node in the queue.
@@ -64,9 +64,9 @@ vector<int> HuffmanEncoder::encode(vector<char> buf) {
 // TODO: Handle escape characters.
 void HuffmanEncoder::display_encoding() {
     cout << "\n------- Encoding -------\n";
-    for (auto const &i : this->encoding) {
-        cout << i.first << " -> ";
-        for (auto const &bit : i.second) {
+    for (auto const &[c, bits] : this->encoding) {
+        cout << c << " -> ";
+        for (auto const &bit : bits) {
             cout << bit;
         }
         cout << "\n";

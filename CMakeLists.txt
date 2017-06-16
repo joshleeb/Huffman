@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(huffman)
 
 set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Werror")
 
 file(GLOB_RECURSE SOURCES src/*.cc src/*.h)
 
