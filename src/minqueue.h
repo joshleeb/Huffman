@@ -3,32 +3,37 @@
 #include <queue>
 #include <vector>
 
+#include <gsl/gsl>
+
 #define EMPTY_NODE '\0'
 
-class MinQueueNode {
+class minqueue_node {
     public:
-    MinQueueNode(char value, unsigned int score);
-    ~MinQueueNode();
+    minqueue_node(char value, unsigned int score);
+    ~minqueue_node();
 
     unsigned int score;
     char value;
 
-    MinQueueNode *left, *right;
+    minqueue_node* left;
+    minqueue_node* right;
 };
 
-struct CompareMinQueueNodes {
-    bool operator()(const MinQueueNode *left, const MinQueueNode *right);
+struct cmp_minqueue_nodes {
+    bool operator()(
+        const gsl::not_null<minqueue_node*> left, const gsl::not_null<minqueue_node*> right);
 };
 
-class MinQueue {
-    std::priority_queue<MinQueueNode*, std::vector<MinQueueNode*>, CompareMinQueueNodes> nodes;
+class minqueue {
+    std::priority_queue<
+        minqueue_node*, std::vector<minqueue_node*>, cmp_minqueue_nodes> nodes;
 
     public:
-    MinQueue();
-    ~MinQueue();
+    minqueue();
+    ~minqueue();
 
-    void push(MinQueueNode *node);
-    MinQueueNode *pop();
+    void push(gsl::not_null<minqueue_node*> node);
+    minqueue_node* pop();
 
     bool empty();
     int size();

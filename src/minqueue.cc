@@ -1,34 +1,36 @@
 #include <queue>
 #include <vector>
 
+#include <gsl/gsl>
+
 #include "minqueue.h"
 
-MinQueue::MinQueue() {
+minqueue::minqueue() {
     this->nodes = std::priority_queue<
-        MinQueueNode*, std::vector<MinQueueNode*>, CompareMinQueueNodes>();
+        minqueue_node*, std::vector<minqueue_node*>, cmp_minqueue_nodes>();
 }
 
-MinQueue::~MinQueue() {
+minqueue::~minqueue() {
     while (!this->nodes.empty()) {
         delete this->pop();
     }
 }
 
-void MinQueue::push(MinQueueNode *node) {
+void minqueue::push(gsl::not_null<minqueue_node*> node) {
     this->nodes.push(node);
 }
 
-MinQueueNode *MinQueue::pop() {
-    MinQueueNode *root = this->nodes.top();
+minqueue_node* minqueue::pop() {
+    minqueue_node* root = this->nodes.top();
     this->nodes.pop();
 
     return root;
 }
 
-bool MinQueue::empty() {
+bool minqueue::empty() {
     return this->nodes.empty();
 }
 
-int MinQueue::size() {
+int minqueue::size() {
     return this->nodes.size();
 }

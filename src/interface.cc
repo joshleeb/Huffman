@@ -4,12 +4,12 @@
 
 namespace po = boost::program_options;
 
-const char *desc_text =
+const char* desc_text =
     "huffman [OPTIONS...]\n"
     "Huffman encoder/decoder concept project.\n\n"
     "OPTIONS";
 
-Options *process_cli(int argc, char *argv[]) {
+options* process_cli(int argc, char* argv[]) {
     po::variables_map vm;
     po::options_description desc(desc_text);
 
@@ -25,7 +25,7 @@ Options *process_cli(int argc, char *argv[]) {
     try {
         po::store(po::parse_command_line(argc, argv, desc), vm);
         po::notify(vm);
-    } catch (std::exception &e) {
+    } catch (std::exception& e) {
         std::cerr << "Error: " << e.what() << "\n\n";
         exit(EXIT_FAILURE);
     }
@@ -35,7 +35,7 @@ Options *process_cli(int argc, char *argv[]) {
         exit(EXIT_SUCCESS);
     }
 
-    Options *opts = new Options(
+    options* opts = new options(
         vm["encode"].as<bool>(),
         vm["decode"].as<bool>(),
         vm["stats"].as<bool>(),
@@ -64,17 +64,17 @@ std::vector<char> read_stdin() {
     return buf;
 }
 
-template void write_buf<char>(const std::vector<char>&, std::ostream &stream);
-template void write_buf<int>(const std::vector<int>&, std::ostream &stream);
+template void write_buf<char>(const std::vector<char>&, std::ostream&);
+template void write_buf<int>(const std::vector<int>&, std::ostream&);
 template<typename T>
-void write_buf(const std::vector<T> &buf, std::ostream &stream) {
-    for (auto const &i : buf) {
+void write_buf(const std::vector<T>& buf, std::ostream& stream) {
+    for (const auto& i : buf) {
         stream << i;
     }
     stream << "\n";
 }
 
-Options::Options(bool encode, bool decode, bool stats, bool verbose) {
+options::options(bool encode, bool decode, bool stats, bool verbose) {
     this->encode = encode;
     this->decode = decode;
     this->stats = stats;
@@ -83,7 +83,7 @@ Options::Options(bool encode, bool decode, bool stats, bool verbose) {
     this->file_output = false;
 }
 
-void Options::set_output(std::string path) {
+void options::set_output(std::string path) {
     this->file_output = true;
     this->output = path;
 }

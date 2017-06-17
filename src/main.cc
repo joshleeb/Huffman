@@ -9,7 +9,7 @@
 
 namespace fs = boost::filesystem;
 
-int encode(gsl::not_null<Options *>opts) {
+int encode(gsl::not_null<options*> opts) {
     if (opts->file_output && fs::exists(opts->output)) {
         std::cout << "File already exists. Overwrite? [y/N] ";
         char confirmation = getchar();
@@ -20,7 +20,7 @@ int encode(gsl::not_null<Options *>opts) {
     }
 
     std::vector<char> buf = read_stdin();
-    auto encoder = HuffmanEncoder();
+    auto encoder = huffman_encoder();
     auto encoded = encoder.encode(buf);
 
     if (opts->file_output) {
@@ -38,7 +38,7 @@ int encode(gsl::not_null<Options *>opts) {
     return EXIT_SUCCESS;
 }
 
-int decode(Options *opts) {
+int decode(gsl::not_null<options*> opts) {
     (void) opts;
     std::cout << "Decoding isn't implemented... yet\n\n";
 
@@ -46,8 +46,8 @@ int decode(Options *opts) {
     return EXIT_SUCCESS;
 }
 
-int main(int argc, char *argv[]) {
-    auto *opts = process_cli(argc, argv);
+int main(int argc, char* argv[]) {
+    auto opts = process_cli(argc, argv);
 
     if (opts->encode && opts->decode) {
         std::cerr << "Error: cannot specify both to encode and decode\n\n";

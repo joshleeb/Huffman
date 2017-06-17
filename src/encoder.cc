@@ -2,20 +2,22 @@
 #include <unordered_map>
 #include <vector>
 
+#include <gsl/gsl>
+
 #include "huffman.h"
 #include "interface.h"
 #include "minqueue.h"
 
-HuffmanEncoder::HuffmanEncoder() {
+huffman_encoder::huffman_encoder() {
     this->encoding = std::unordered_map<char, std::vector<int>>();
-    this->stats = new Statistics();
+    this->stats = new statistics();
 }
 
-HuffmanEncoder::~HuffmanEncoder() {
+huffman_encoder::~huffman_encoder() {
     delete this->stats;
 }
 
-std::vector<int> HuffmanEncoder::encode(std::vector<char> buf) {
+std::vector<int> huffman_encoder::encode(std::vector<char> buf) {
     if (buf.empty()) return std::vector<int>();
 
     auto freq = this->count_chars(buf);
@@ -24,31 +26,34 @@ std::vector<int> HuffmanEncoder::encode(std::vector<char> buf) {
     this->stats->original = buf.size() * 8;
 
     // Push items onto the queue to be sorted by frequency.
-    MinQueue *queue = new MinQueue();
-    for (auto const &[value, score] : freq) {
-        queue->push(new MinQueueNode(value, score));
+    minqueue* queue = new minqueue();
+    for (const auto& [value, score] : freq) {
+        queue->push(new minqueue_node(value, score));
     }
 
+    minqueue_node* left;
+    minqueue_node* right;
+
     // Combine nodes to form a heap where the root node will be the only node in the queue.
-    MinQueueNode *left, *right;
     while (queue->size() > 1) {
         left = queue->pop();
         right = queue->pop();
 
-        MinQueueNode *new_node = new MinQueueNode(EMPTY_NODE, left->score + right->score);
+        minqueue_node* new_node = new minqueue_node(EMPTY_NODE, left->score + right->score);
         new_node->left = left;
         new_node->right = right;
 
         queue->push(new_node);
     }
 
-    MinQueueNode *root = queue->pop();
+    minqueue_node* root = queue->pop();
     delete queue;
 
     this->evaluate(root, std::vector<int>());
     auto header = this->construct_header(root);
     uint16_t header_size = header.size();
     std::vector<int> encoded = this->construct_header(root);
+
     delete root;
 
     // Insert 'H<HEADER_SIZE>' into the header. Note that <HEADER_SIZE> is a 16 bit unsigned int that
@@ -60,7 +65,7 @@ std::vector<int> HuffmanEncoder::encode(std::vector<char> buf) {
         encoded.insert(encoded.begin(), 'H' >> bit_index & 1);
     }
 
-    for (auto &c : buf) {
+    for (auto& c : buf) {
         std::vector<int> encoding = this->encoding[c];
         encoded.insert(encoded.end(), encoding.begin(), encoding.end());
     }
@@ -72,11 +77,11 @@ std::vector<int> HuffmanEncoder::encode(std::vector<char> buf) {
 }
 
 // TODO: Handle escape characters.
-void HuffmanEncoder::display_encoding() {
+void huffman_encoder::display_encoding() {
     std::cout << "\n------- Encoding -------\n";
-    for (auto const &[c, bits] : this->encoding) {
+    for (const auto& [c, bits] : this->encoding) {
         std::cout << c << " -> ";
-        for (auto const &bit : bits) {
+        for (const auto& bit : bits) {
             std::cout << bit;
         }
         std::cout << "\n";
@@ -84,7 +89,7 @@ void HuffmanEncoder::display_encoding() {
     std::cout << "------------------------\n\n";
 }
 
-void HuffmanEncoder::display_stats() {
+void huffman_encoder::display_stats() {
     double delta = this->stats->original - this->stats->modified;
     double percentage = 100 * delta / this->stats->original;
 
@@ -95,10 +100,10 @@ void HuffmanEncoder::display_stats() {
     std::cout << "------------------------\n\n";
 }
 
-std::unordered_map<char, int> HuffmanEncoder::count_chars(std::vector<char> buf) {
+std::unordered_map<char, int> huffman_encoder::count_chars(std::vector<char> buf) {
     std::unordered_map<char, int> freq = {};
 
-    for (auto &c : buf) {
+    for (const auto& c : buf) {
         if (freq.find(c) == freq.end()) {
             freq[c] = 0;
         }
@@ -108,7 +113,7 @@ std::unordered_map<char, int> HuffmanEncoder::count_chars(std::vector<char> buf)
     return freq;
 }
 
-void HuffmanEncoder::evaluate(MinQueueNode *root, std::vector<int> encoding) {
+void huffman_encoder::evaluate(minqueue_node* root, std::vector<int> encoding) {
     if (!root) return;
     if (root->value != EMPTY_NODE) {
         this->encoding[root->value] = encoding;
@@ -127,7 +132,7 @@ void HuffmanEncoder::evaluate(MinQueueNode *root, std::vector<int> encoding) {
 // Construct the header for the current encoding. The header is a simple representation of the
 // structure of the binary tree. A `0` denotes moving along the tree, and a `1` denotes that the next
 // sequence of 7 bits is a character.
-std::vector<int> HuffmanEncoder::construct_header(MinQueueNode *root) {
+std::vector<int> huffman_encoder::construct_header(gsl::not_null<minqueue_node*> root) {
     auto header = std::vector<int>();
     std::vector<int> sub_header;
 
