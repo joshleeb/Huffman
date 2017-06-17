@@ -1,6 +1,6 @@
 # Huffman
 
-Huffman encoder/decoder.
+Huffman encoder.
 
 Please note that this is not for actual use, unless you want to play around with the Huffman algorithm. Not only is this code not optimized, it also encodes the input into bytes of 0 and 1 instead of bits. Similarly, the input for decoding is expected to be in bytes rather than bits.
 
@@ -34,7 +34,7 @@ Show help message and usage information.
 
 `-s --stats`
 
-Display theoretical statistics, specifically how much space was compressed/expanded. As mentioned above, the data is in bytes rather than bits. The calculations for these statistics assume that this is a proper Huffman encoder/decoder that works in bits.
+Display theoretical statistics, specifically how much space was compressed/expanded. As mentioned above, the data is in bytes rather than bits. The calculations for these statistics assume that this is a proper Huffman encoder that works in bits.
 
 #### Verbose
 
