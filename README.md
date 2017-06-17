@@ -12,13 +12,10 @@ Wanted to work on a small side project to get better at programming in C++.
 
 ```bash
 huffman [OPTIONS...]
-Huffman encoder/decoder concept project.
+Huffman encoder concept project.
 
 OPTIONS:
   -h [ --help ]         Show this help
-  -e [ --encode ]       Encode input
-  -d [ --decode ]       Decode input
-  -o [ --output ] FILE  File to output to
   -s [ --stats ]        Show hypothetical statistics
   -v [ --verbose ]      Turn on verbose output
 ```
@@ -33,42 +30,13 @@ Input is read from `stdin` and outputted to a specified file or `stdout`.
 
 Show help message and usage information.
 
-#### Encoding
-
-+ TODO: Implement.
-
-`-e --encode`
-
-Encode the input.
-
-#### Decoding
-
-+ TODO: Implement.
-
-`-d --decode`
-
-Decode the input.
-
-#### Output
-
-+ TODO: Implement.
-
-`-o --output`
-
-File to output the encoded/decoded data into.
-
 #### Statistics
-
-+ TODO: Implement.
 
 `-s --stats`
 
 Display theoretical statistics, specifically how much space was compressed/expanded. As mentioned above, the data is in bytes rather than bits. The calculations for these statistics assume that this is a proper Huffman encoder/decoder that works in bits.
 
 #### Verbose
-
-+ TODO: Implement.
-+ TODO: Make sure escape characters are correctly displayed.
 
 `-v --verbose`
 

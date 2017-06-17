@@ -6,18 +6,13 @@ namespace po = boost::program_options;
 
 class options {
     public:
-    bool encode, decode, stats, verbose, file_output;
-    std::string output;
+    bool stats, verbose;
 
-    options(bool encode, bool decode, bool stats, bool verbose);
+    options(bool stats, bool verbose);
     void set_output(std::string path);
 };
 
 options* process_cli(int argc, char* argv[]);
 
 std::vector<char> read_stdin();
-
-template<typename T>
-void write_buf(const std::vector<T>& buf, std::ostream& stream);
-
-inline bool file_exists(const std::string& path);
+void write_stdout(std::vector<int> buf);
