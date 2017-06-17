@@ -10,21 +10,25 @@ using namespace std;
 namespace fs = boost::filesystem;
 
 int encode(Options *opts) {
+    if (opts->file_output && fs::exists(opts->output)) {
+        cout << "File already exists. Overwrite? [y/N] ";
+        char confirmation = getchar();
+
+        if (tolower(confirmation) != 'y') {
+            return EXIT_SUCCESS;
+        }
+    }
+
     vector<char> buf = read_stdin();
     auto encoder = HuffmanEncoder();
     auto encoded = encoder.encode(buf);
 
-    // TODO: Refactor this into nicer functions.
-    // TODO: Add safety check if outfile already exists.
     if (opts->file_output) {
         ofstream outfile(opts->output);
-        for (auto const &bit : encoded) {
-            outfile << bit;
-        }
-        outfile << "\n";
+        write_buf(encoded, outfile);
         outfile.close();
     } else {
-        display_buf(encoded);
+        write_buf(encoded, cout);
     }
 
     if (opts->verbose) encoder.display_encoding();

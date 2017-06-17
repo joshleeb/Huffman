@@ -65,14 +65,14 @@ vector<char> read_stdin() {
     return buf;
 }
 
-template void display_buf<char>(const vector<char>&);
-template void display_buf<int>(const vector<int>&);
+template void write_buf<char>(const vector<char>&, ostream &stream);
+template void write_buf<int>(const vector<int>&, ostream &stream);
 template<typename T>
-void display_buf(const vector<T> &buf) {
+void write_buf(const vector<T> &buf, ostream &stream) {
     for (auto const &i : buf) {
-        std::cout << i;
+        stream << i;
     }
-    std::cout << "\n";
+    stream << "\n";
 }
 
 Options::Options(bool encode, bool decode, bool stats, bool verbose) {

@@ -18,6 +18,6 @@ Options *process_cli(int argc, char *argv[]);
 std::vector<char> read_stdin();
 
 template<typename T>
-void display_buf(const std::vector<T> &buf);
+void write_buf(const std::vector<T> &buf, std::ostream &stream);
 
 inline bool file_exists(const std::string &path);
