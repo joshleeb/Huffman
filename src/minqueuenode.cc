@@ -1,7 +1,5 @@
 #include "minqueue.h"
 
-using namespace std;
-
 MinQueueNode::MinQueueNode(char value, unsigned int score) {
     this->value = value;
     this->score = score;

@@ -3,7 +3,6 @@
 #include "interface.h"
 
 namespace po = boost::program_options;
-using namespace std;
 
 const char *desc_text =
     "huffman [OPTIONS...]\n"
@@ -18,7 +17,7 @@ Options *process_cli(int argc, char *argv[]) {
         ("help,h", po::bool_switch()->default_value(false), "Show this help")
         ("encode,e", po::bool_switch()->default_value(false), "Encode input")
         ("decode,d", po::bool_switch()->default_value(false), "Decode input")
-        ("output,o", po::value<string>()->multitoken()->value_name("FILE"), "File to output to")
+        ("output,o", po::value<std::string>()->multitoken()->value_name("FILE"), "File to output to")
         ("stats,s", po::bool_switch()->default_value(false), "Show hypothetical statistics")
         ("verbose,v", po::bool_switch()->default_value(false), "Turn on verbose output")
     ;
@@ -32,7 +31,7 @@ Options *process_cli(int argc, char *argv[]) {
     }
 
     if (vm["help"].as<bool>()) {
-        cout << desc << "\n";
+        std::cout << desc << "\n";
         exit(EXIT_SUCCESS);
     }
 
@@ -44,20 +43,20 @@ Options *process_cli(int argc, char *argv[]) {
     );
 
     if (vm.count("output")) {
-        opts->set_output(vm["output"].as<string>());
+        opts->set_output(vm["output"].as<std::string>());
     }
 
     return opts;
 }
 
-vector<char> read_stdin() {
-    auto buf = vector<char>();
-    string line;
+std::vector<char> read_stdin() {
+    auto buf = std::vector<char>();
+    std::string line;
 
-    getline(cin, line);
+    getline(std::cin, line);
     copy(line.begin(), line.end(), back_inserter(buf));
 
-    while (getline(cin, line)) {
+    while (getline(std::cin, line)) {
         buf.push_back('\n');
         copy(line.begin(), line.end(), back_inserter(buf));
     }
@@ -65,10 +64,10 @@ vector<char> read_stdin() {
     return buf;
 }
 
-template void write_buf<char>(const vector<char>&, ostream &stream);
-template void write_buf<int>(const vector<int>&, ostream &stream);
+template void write_buf<char>(const std::vector<char>&, std::ostream &stream);
+template void write_buf<int>(const std::vector<int>&, std::ostream &stream);
 template<typename T>
-void write_buf(const vector<T> &buf, ostream &stream) {
+void write_buf(const std::vector<T> &buf, std::ostream &stream) {
     for (auto const &i : buf) {
         stream << i;
     }
@@ -84,7 +83,7 @@ Options::Options(bool encode, bool decode, bool stats, bool verbose) {
     this->file_output = false;
 }
 
-void Options::set_output(string path) {
+void Options::set_output(std::string path) {
     this->file_output = true;
     this->output = path;
 }

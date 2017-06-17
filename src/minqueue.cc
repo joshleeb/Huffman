@@ -3,10 +3,9 @@
 
 #include "minqueue.h"
 
-using namespace std;
-
 MinQueue::MinQueue() {
-    this->nodes = priority_queue<MinQueueNode*, vector<MinQueueNode*>, CompareMinQueueNodes>();
+    this->nodes = std::priority_queue<
+        MinQueueNode*, std::vector<MinQueueNode*>, CompareMinQueueNodes>();
 }
 
 MinQueue::~MinQueue() {
