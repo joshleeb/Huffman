@@ -2,14 +2,16 @@
 #include <vector>
 
 #include <boost/filesystem.hpp>
+#include <gsl/gsl>
 
 #include "huffman.h"
 #include "interface.h"
 
 using namespace std;
+using namespace gsl;
 namespace fs = boost::filesystem;
 
-int encode(Options *opts) {
+int encode(not_null<Options *>opts) {
     if (opts->file_output && fs::exists(opts->output)) {
         cout << "File already exists. Overwrite? [y/N] ";
         char confirmation = getchar();
