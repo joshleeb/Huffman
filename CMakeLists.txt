@@ -10,7 +10,7 @@ file(GLOB_RECURSE SOURCES src/*.cc src/*.h)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
 set(Boost_USE_MULTITHREADED ON)
-find_package(Boost COMPONENTS filesystem program_options)
+find_package(Boost COMPONENTS program_options)
 
 add_executable(huffman src/main.cc ${LIBS} ${SOURCES})
 

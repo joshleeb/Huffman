@@ -1,13 +1,10 @@
 #include <iostream>
 #include <vector>
 
-#include <boost/filesystem.hpp>
 #include <gsl/gsl>
 
 #include "huffman.h"
 #include "interface.h"
-
-namespace fs = boost::filesystem;
 
 int encode(gsl::not_null<options*> opts) {
     std::vector<char> buf = read_stdin();
